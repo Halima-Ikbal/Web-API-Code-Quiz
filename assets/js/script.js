@@ -1,7 +1,7 @@
 // variable to access html elements
 // querySelector method lets you retrieve an element from CSS selector
 // using getElementById method, will only select and elemtn by IDs.
-var scores = document.querySelector("#score");
+var scores = document.querySelector("#scores");
 var timer = document.querySelector("#timer");
 var container = document.querySelector("container");
 var title = document.querySelector("#title");
@@ -17,23 +17,14 @@ var answer = document.querySelector("#answer")
 class Question {
   constructor(question, option, answer){
     this.question = question;
-    this. option = option;
+    this. options = option;
     this.answer = answer;
   }
 }
 
 // variable for question loop
 
-var optionList = [];
-var currentQues = 0;
-var score = 0;
-var timeLeft = 60;
-var isQuizOngoing = false;
-var leaderboard = [];
-var initials= "";
-var isClearAnswer = false;
-var clearAnswerCode = 0;
-var isCorrect = false;
+
 
 var questionList = [];
 
@@ -60,6 +51,19 @@ questionList.push(question5);
 
 const option6 = ["1. add()", "2. push()", "3. concat()", "4. none of the above"];
 const question6 = new Question("Which of the following function can add an element to the end of an array?", option6, "2. push()");
+
+
+var optionList = [];
+var currentQues = 0;
+var score = 0;
+var timeLeft = 60;
+var isQuizOngoing = false;
+var leaderboard = [];
+var initials= "";
+var isClearAnswer = false;
+var clearAnswerCode = 0;
+var isCorrect = false;
+
 
 // initiate function for the quiz to start
 
@@ -128,7 +132,127 @@ function writeAnswer(event) {
     }
     clearAnswer();
   }
+} 
+
+// Clear footer content 
+// check if timeout has already been set
+//if is clear the previous timout and calls itself
+
+function clearAnswer() {
+  if(isClearAnswer) {
+    isClearAnswer = false;
+    clearTimeout(clearAnswerCode);
+    clearAnswer();
+  }else {
+    isClearAnswer = true;
+    clearAnswerCode = setTimeout(function() {
+      answer.textContent = "";
+      isClearAnswer = false;
+    }, 3000);
+  }
 }
+// Change to next question
+// change answer options 
+function changeQuestion () {
+  title.textContent = questionList[currentQues].question;
+  for(var i = 0; i < questionList[currentQues].options.length; i++) {
+    optionList[i].textContent = questionList[currentQues].options[i];
+    optionList[i].addEventListener("click", nextQuestion);
+  }
+  currentQues++;
+} 
+//clear options and deisplay score
+function endOfQuiz() {
+  title.textContent = "All Done.";
+  timeLeft = 1;
+  clearOptions();
+  clearAnswer();
+  content.setAttribute("style", "display: visible");
+  content.textContent = `Your final score is ${score}`;
+  inputFields();
+}
+
+//remove option buttons and empties array
+function clearOptions() {
+  for(let i = 0; i < optionList.length; i++) {
+    optionList[i].remove();
+  }
+  optionList = [];
+}
+
+// create form from entering initails 
+// eventListener for click
+
+function inputFields() {
+  var initialsForm = document.createElement("form");
+  container.appendChild(initialsForm);
+  initialsForm.setAttribute("id", "form");
+  
+  var label = document.createElement("label");
+  initialsForm.appendChild(label);
+  label.textContent = "Enter initials:"
+
+  var input = document.createElement("input");
+  initialsForm.appendChild(input);
+  input.setAttribute("id", "initials");
+
+  var submit = document.createElement ("button");
+  initialsForm.appendChild(submit);
+  submit.setAttribute("id", "submit");
+  submit.textContent = "Submit";
+
+  title.setAttribute("style", "align-self: start")
+  content.setAttribute("style", "align-self: start; font-size: 150%");
+
+  input.addEventListener("keydown", stopReload);
+  submit.addEventListener("click", addScore);
+}
+
+// Prevents entry field from reloading page
+function stopReload(event) {
+  if(event.key === "Enter") {
+      event.preventDefault();
+  }
+}
+
+// Prevents submit from reloading page
+// Checks if initials are in a valid format
+// Lets program now quiz is over and removes the form
+// Saves the score
+function addScore(event) {
+  if(event !== undefined) {
+      event.preventDefault();
+  }
+  let id = document.getElementById("initials");
+  if(id.value.length > 3 || id.value.length === 0) {
+      invalidInput();
+      return;
+  }
+  isQuizOngoing = false;
+  document.getElementById("form").remove();
+  saveScore(id);
+}
+
+
+//chacks if there are any scores saved locally
+//add the score to the array and updates local storage
+function saveScore(id) {
+  if(localStorage.getItem("leaderboard") !== null) {
+    leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+  }
+  leaderboard.push(`${score} ${id.value}`);
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+  showScores();
+}
+
+
+
+
+init();
+
+
+
+
 
 
 
