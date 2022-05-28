@@ -10,19 +10,7 @@ var start = document.querySelector("#startbtn")
 var answer = document.querySelector("#answer")
 
 
-// Counts down the timer and ends the quiz if time is zero
-function runTimer () {
-  let clock = setInterval(function() {
-      timeLeft--;
-      timer.textContent = `Time: ${timeLeft} seconds`;
-      if(timeLeft === 0) {
-          clearInterval(clock);
-          if(title.textContent !== "All Done.") {
-              endOfQuiz();
-          }
-      }
-  }, 1000)
-}
+
 
 // question format
 
@@ -80,11 +68,72 @@ function init() {
   scores.addEventListener("click", showScores);
 }
 
+// makes elements invisible and create buttons
+function questionLoop () {
+  runTimer();
+  isQuizOngoing = true;
+  start.setAttribute("style", "display: none");
+  content.setAttribute("style", "display: none");
+  var numOfOptions = questionList[0].options.length;
+  for(let i = 0; i < numOfOptions; i++) {
+    let option = document.createElement("button");
+    container.appendChild(option);
+    optionList.push(option);
+    option.setAttribute("id", `button${i + 1}`);
+  }
+  nextQuestion();
+}
+
+// count down the timer and end the quiz when zero
+
+function runTimer() {
+  let clock = setInterval(function() {
+    timeLeft--;
+    timer.textContent = `Time: ${timeLeft} seconds`;
+    if(timeLeft === 0) {
+      clearInterval(clock);
+      if(title.textContent !== "All Done.") {
+        endOfQuiz();
+      }
+    }
+  }, 1000)
+}
+
+// checks if is on first question
+//if not it checks the answer from the previous question is correct
+// if is incorrect time is reduece by 10 sec
+//timer is set to zero if is less than 10 sec
+
+function writeAnswer(event) {
+  if(event !== undefined) {
+    if(event.currentTarget.textContent === questionList[currentQues -1].answer) {
+      isCorrect = true;
+      answer.textContent = "Correct";
+      answer.setAttribute("style", "color: gray" );
+      score += 10;
+    }else {
+      isCorrect = false;
+      answer.textContent = "Wrong";
+      answer.setAttribute("style", "color: gray");
+    
+      if(timeLeft > 10) {
+        timeLeft -= 10;
+      }else {
+        timeLeft = 1;
+      }
+      timer.setAttribute("style", "color: red");
+      setTimeout(function () {
+        timer.setAttribute("style", "color:black");
+      }, 1000);
+    }
+    clearAnswer();
+  }
+}
 
 
 
 
 
-init();
+
 
 
