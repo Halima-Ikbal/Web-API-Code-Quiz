@@ -1,0 +1,21 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-bottom: solid 10px #673f76;
+  
+} 
+header > *{
+  border: solid purple 3px;
+  border-radius: 20px;
+  margin: 20px 5%;
+  font-size: 125%;
+  padding: 10px
+}
+
