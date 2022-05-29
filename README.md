@@ -8,7 +8,7 @@ To take JavaScrip basis quiz in limited time with penalty of (-10 sec) for every
 
 
 
-# Screenshot of Password Generator 
+# Screenshot of Quiz 
 <immg src="assets/image/2022-05-29.png" width="500" height>
 # User Story 
 GIVEN I am taking a code quiz
