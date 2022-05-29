@@ -2,6 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 100%;
+  font: inherit;
 }
 header {
   display: flex;
@@ -19,7 +21,7 @@ header > *{
   padding: 10px
 }
 #container {
-  border: solid #243153 10px;
+  border: solid white 10px;
   border-radius: 20px;
   margin: 50px 10% 20px;
   display: flex;
@@ -46,9 +48,15 @@ button {
   padding: 10px 40px;
   font-size: 125%;
   font-weight: bolder;
+  cursor: pointer;
+}
+#button :hover {
+  background-color: plum;
+  transition: 0.7s;
+  
 }
 
-#button1, #button2, #button3, #button4, #restart, #clearScore {
+#button1, #button2, #button3, #button4, #restart, #clearScores {
   align-self: start;
 }
 #form{
