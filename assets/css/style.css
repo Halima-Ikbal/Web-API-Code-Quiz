@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font: inherit;
 }
 header {
   display: flex;
@@ -18,15 +19,15 @@ header > *{
   font-size: 125%;
   padding: 10px
 }
-#container {
-  border: solid #243153 10px;
+#main {
+  border: solid white 10px;
   border-radius: 20px;
   margin: 50px 10% 20px;
   display: flex;
   flex-direction: column;
 }
 
-#container >*{
+#main >*{
   margin: 20px 5%;
   align-self: center;
 }
@@ -46,16 +47,21 @@ button {
   padding: 10px 40px;
   font-size: 125%;
   font-weight: bolder;
+  cursor: pointer;
+}
+#button :hover {
+  background-color: plum;
+  transition: 0.7s;
+  
 }
 
-#button1, #button2, #button3, #button4, #restart, #clearScore {
+#button1, #button2, #button3, #button4, #restart, #clearScores {
   align-self: start;
 }
 #form{
   font-size: 150%;
 }
 #submit {
-  font-size: 100%;
   margin: 20px;
 }
 
@@ -72,7 +78,7 @@ button:hover{
   header{
     justify-content: space-between;
   }
-  #container {
+  #main {
     margin: 75px 20% 20px;
   }
   #content {
@@ -85,7 +91,7 @@ button:hover{
     justify-content: space-between;
 
   }
-  #container {
+  #main {
     margin: 75px 20% 20px;
   }
   #content {
